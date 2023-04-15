@@ -42,7 +42,7 @@ class MotoristaCLI(SimpleCLI):
             passageiro = Passageiro(nomePassageiro, nomeDocumento)
             corrida = Corrida(notaCorrida, distanciaCorrida, valorCorrida, passageiro)
             corridas.append(corrida)
-        self.motorista_model.create_driver(corridas, nota, quantCorridas)
+        self.motorista_model.create_driver(nota, corridas)
 
     def read_driver(self):
         id = input("Entre com o id: ")

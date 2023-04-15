@@ -7,15 +7,13 @@ class MotoristaDAO:
     def __init__(self, database):
         self.db = database
 
-    def create_driver(self, nota: int, corridas:Corrida, quantCorridas:int):
+    def create_driver(self, nota, corridas):
          try:
-            res = self.db.collection.insert_one({"nota": nota})
-            for i in range(quantCorridas):
-                res += self.db.collection.insert_one({"corridas":{ corridas: [
-                    {"nota": corridas.nota[i], "distancia": corridas.distancia[i], "valor": corridas.valor[i], "passageiro": {
-                        "nome": corridas.passageiro[i].nome, "documento": corridas.passageiro[i].documento
-                    }}
-                ]}})
+            res = self.db.collection.insert_one({"nota": nota, "corridas":{ corridas: {
+                {"nota": corridas.nota, "distancia": corridas.distancia, "valor": corridas.valor, "passageiro": {
+                    "nome": corridas.passageiro.nome, "documento": corridas.passageiro.documento
+                }}
+            }}})
             print(f"Driver created with id: {res.inserted_id}")
             return res.inserted_id
          except Exception as e:
