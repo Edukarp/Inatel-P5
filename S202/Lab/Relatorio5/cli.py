@@ -31,11 +31,11 @@ class BookCLI(SimpleCLI):
         autor = input("Enter the author: ")
         ano = int(input("Enter the year: "))
         preco = float(input("Enter the price: "))
-        self.book_model.create_book(titulo, autor, ano, preco)
+        self.book_model.create_driver()
 
     def read_book(self):
         id = input("Enter the id: ")
-        book = self.book_model.read_book_by_id(id)
+        book = self.book_model.read_driver_by_id(id)
         if book:
             print(f"Title: {book['titulo']}")
             print(f"Author: {book['autor']}")
@@ -48,11 +48,11 @@ class BookCLI(SimpleCLI):
         autor = input("Enter the new author: ")
         ano = int(input("Enter the new year: "))
         preco = float(input("Enter the new price: "))
-        self.book_model.update_book()
+        self.book_model.update_driver()
 
     def delete_book(self):
         id = input("Enter the id: ")
-        self.book_model.delete_book()
+        self.book_model.delete_driver()
         
     def run(self):
         print("Welcome to the book CLI!")
