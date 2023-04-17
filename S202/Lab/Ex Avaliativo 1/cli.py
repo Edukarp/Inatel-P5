@@ -39,8 +39,8 @@ class MotoristaCLI(SimpleCLI):
             nomePassageiro = input("Entre com o nome do Passageiro da Corrida %d: " % i)
             nomeDocumento = input("Entre com o documento do Passageiro da Corrida %d: " % i)
 
-            passageiro = Passageiro(nomePassageiro, nomeDocumento)
-            corrida = Corrida(notaCorrida, distanciaCorrida, valorCorrida, passageiro)
+            passageiro = Passageiro(nomePassageiro, nomeDocumento).__dict__
+            corrida = Corrida(notaCorrida, distanciaCorrida, valorCorrida, passageiro).__dict__
             corridas.append(corrida)
         self.motorista_model.create_driver(nota, corridas)
 
@@ -63,14 +63,14 @@ class MotoristaCLI(SimpleCLI):
             nomePassageiro = input("Entre com o novo nome do Passageiro da Corrida %d: " % i)
             nomeDocumento = input("Entre com o novo documento do Passageiro da Corrida %d: " % i)
 
-            passageiro = Passageiro(nomePassageiro, nomeDocumento)
-            corrida = Corrida(notaCorrida, distanciaCorrida, valorCorrida, passageiro)
+            passageiro = Passageiro(nomePassageiro, nomeDocumento).__dict__
+            corrida = Corrida(notaCorrida, distanciaCorrida, valorCorrida, passageiro).__dict__
             corridas.append(corrida)
-        self.motorista_model.update_driver(id,corridas, nota, quantCorridas)
+        self.motorista_model.update_driver(id, nota, corridas)
 
     def delete_driver(self):
         id = input("Entre com o id: ")
-        self.motorista_model.delete_driver()
+        self.motorista_model.delete_driver(id)
         
     def run(self):
         print("Welcome to the Driver CLI!")

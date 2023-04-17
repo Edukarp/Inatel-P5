@@ -48,7 +48,7 @@ class BookCLI(SimpleCLI):
         autor = input("Enter the new author: ")
         ano = int(input("Enter the new year: "))
         preco = float(input("Enter the new price: "))
-        self.book_model.update_driver()
+        self.book_model.update_driver(,
 
     def delete_book(self):
         id = input("Enter the id: ")

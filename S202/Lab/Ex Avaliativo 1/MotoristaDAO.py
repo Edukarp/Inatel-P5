@@ -7,16 +7,29 @@ class MotoristaDAO:
     def __init__(self, database):
         self.db = database
 
-    def create_driver(self, nota, corridas):
-         try:
-            res = self.db.collection.insert_one({"nota": nota, "corridas":{ corridas: {
-                {"nota": corridas.nota, "distancia": corridas.distancia, "valor": corridas.valor, "passageiro": {
-                    "nome": corridas.passageiro.nome, "documento": corridas.passageiro.documento
-                }}
-            }}})
+    def create_driver(self, nota: int, corridas: list):
+        try:
+            corridas_dicts = []
+            for corrida in corridas:
+                corrida_dicts = {
+                    "nota": corrida['nota'],
+                    "distancia": corrida['distancia'],
+                    "valor": corrida['valor'],
+                    "passageiro": {
+                        "nome": corrida['passageiro']['nome'],
+                        "documento": corrida['passageiro']['documento']
+                    }
+                }
+                corridas_dicts.append(corrida_dicts)
+
+            res = self.db.collection.insert_one({
+                "corridas": corridas_dicts,
+                "nota": nota
+            })
             print(f"Driver created with id: {res.inserted_id}")
+
             return res.inserted_id
-         except Exception as e:
+        except Exception as e:
             print(f"An error occurred while creating driver: {e}")
             return None
 
@@ -29,20 +42,34 @@ class MotoristaDAO:
             print(f"An error occurred while reading driver: {e}")
             return None
 
-    def update_driver(self,id , corridas:Corrida, nota: int, quantCorridas: int ,):
+    def update_driver(self, id: str , nota: int, corridas: list):
         try:
-            res = self.db.collection.update_one({"_id": ObjectId(id)}, {"$set": {"nota": nota}})
-            for i in range(quantCorridas):
-                res += self.db.collection.update_one({"_id": ObjectId(id)},{"$set": {"corridas":{ corridas[i]: [
-                    {"nota": corridas[i].nota, "distancia": corridas[i].distancia, "valor": corridas[i].valor, "passageiro": {
-                        "nome": corridas[i].passageiro.nome, "documento": corridas[i].passageiro.documento
-                    }}
-                ]}}})
+            corridas_dicts = []
+            for corrida in corridas:
+                corrida_dicts = {
+                    "nota": corrida['nota'],
+                    "distancia": corrida['distancia'],
+                    "valor": corrida['valor'],
+                    "passageiro": {
+                        "nome": corrida['passageiro']['nome'],
+                        "documento": corrida['passageiro']['documento']
+                    }
+                }
+                corridas_dicts.append(corrida_dicts)
+
+            res = self.db.collection.update_one({
+                "_id": ObjectId(id)},
+            {"$set":{
+                "corridas": corridas_dicts,
+                "nota": nota
+            }})
             print(f"Driver updated: {res.modified_count} document(s) modified")
+
             return res.modified_count
         except Exception as e:
             print(f"An error occurred while updating driver: {e}")
             return None
+
 
     def delete_driver(self, id: str):
         try:
